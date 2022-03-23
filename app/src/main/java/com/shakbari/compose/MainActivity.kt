@@ -5,28 +5,37 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.DestinationsNavHost
-import com.shakbari.compose.screen.NavGraph
 import com.shakbari.compose.screen.NavGraphs
-import com.shakbari.compose.ui.kit.LoadingView
+import com.shakbari.compose.ui.kit.bottomnavigation.DestinationBottomNavigation
 import com.shakbari.compose.ui.theme.ComposeUiTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val navController = rememberNavController()
             ComposeUiTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    DestinationsNavHost(navGraph = NavGraphs.root)
+                    Scaffold(
+                        bottomBar = {
+                            DestinationBottomNavigation.Show(
+                                navController = navController
+                            )
+                        }
+                    ) {
+                        DestinationsNavHost(
+                            navGraph = NavGraphs.root,
+                            navController = navController
+                        )
+                    }
                 }
             }
         }
